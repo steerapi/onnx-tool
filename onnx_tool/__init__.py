@@ -1,5 +1,6 @@
 import onnx
 import numpy
+from typing import Union
 
 from .node_profilers import NodeBase, graph_profile, infer_shapes, create_ndarray_f32, create_ndarray_int64, print_node_map
 from .utils import NODEPROFILER_REGISTRY
@@ -7,7 +8,7 @@ from .utils import NODEPROFILER_REGISTRY
 def __remove_initilisers(model:onnx.ModelProto):
     model.graph.ClearField('initializer')
 
-def model_profile(m: [onnx.ModelProto | str], dynamic_shapes: {str: tuple} = None, savenode: str = None,
+def model_profile(m: Union[onnx.ModelProto,str], dynamic_shapes: {str: tuple} = None, savenode: str = None,
                   saveshapesmodel: str = None, shapesonly:bool=False, verbose:bool=False)-> None:
     if isinstance(m, str):
         m = onnx.load_model(m)
@@ -19,7 +20,7 @@ def model_profile(m: [onnx.ModelProto | str], dynamic_shapes: {str: tuple} = Non
                 __remove_initilisers(m)
             onnx.save_model(m,saveshapesmodel)
 
-def model_shape_infer(m: [onnx.ModelProto | str], dynamic_shapes: {str: tuple} = None,
+def model_shape_infer(m: Union[onnx.ModelProto,str], dynamic_shapes: {str: tuple} = None,
                   saveshapesmodel: str = None, shapesonly:bool=False, verbose:bool=False):
     if isinstance(m, str):
         m = onnx.load_model(m)
