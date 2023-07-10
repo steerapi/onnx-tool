@@ -1041,7 +1041,7 @@ class Gather(NodeBase):
 
     def infer_shape(self,intensors:list[numpy.ndarray]):
         outtensors=[]
-        out=numpy.take(intensors[0],intensors[1].astype(dtype=numpy.int),axis=self.axis)
+        out=numpy.take(intensors[0],intensors[1].astype(dtype=numpy.int32),axis=self.axis)
         outtensors.append(out)
         return outtensors
 
